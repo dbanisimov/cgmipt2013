@@ -1,0 +1,167 @@
+%!PS-Adobe-3.0
+%%Pages: 1
+%%DocumentData: Clean7Bit
+%%LanguageLevel: 2
+%%EndComments
+
+%%BeginProlog
+%%EndProlog
+
+%%BeginSetup
+%%EndSetup
+
+%%Page: 1 1
+
+%%BeginPageSetup 
+/pgsave save def 
+%%EndPageSetup
+
+/group-2 [0.078740 0.070150 0.062496 0.055678 0.049603 0.044191] def
+/scale-2 1.0 def
+/scale-1 0.5 def
+
+/rotation 0 def
+
+/dpi  72 def
+/size 0.07 def
+/sizep {dpi size mul} def
+
+/Elem {
+    newpath
+    0 0 moveto 
+    sizep 5 mul 0 rlineto
+    0 sizep rlineto
+    sizep neg 5 mul 0 rlineto
+    0 sizep neg rlineto
+    closepath
+    fill
+} def
+
+/ElemGroup {
+    3 {
+        Elem
+        sizep 2 mul 0 exch translate
+    } repeat
+} def
+
+/Pattern {
+    gsave
+    gsave
+    ElemGroup
+    grestore
+    sizep 7 mul
+    sizep 5 mul translate
+    90 neg rotate
+    ElemGroup
+    grestore
+} def
+
+/fontsize 20 def
+/Helvetica findfont
+fontsize scalefont
+setfont
+
+/Group {
+% Here should be three parameters of the group
+% from step to
+{
+    /num exch def
+    group-2 num 1 sub get 
+    /size exch def
+    0 sizep 2 mul translate
+    Pattern
+    gsave
+    sizep 3.5 mul fontsize 2 div sub
+    -20 exch translate
+    0 0 moveto
+    rotation 0 ne {
+        gsave
+        rotation neg rotate
+        0 fontsize neg translate
+        0 sizep 2 mul translate
+        0 0 moveto
+        num 1 string cvs show
+        grestore
+    }{
+        num 1 string cvs show
+    } ifelse
+    grestore
+    0 sizep 5 mul translate
+} for
+} def
+
+% Group -2
+200 200 translate
+scale-2 scale-2 scale
+6 -1 2 Group
+
+gsave
+sizep 5 mul sizep translate
+0 0 moveto
+(-2) show
+grestore
+
+% Box
+14 sizep mul 0 translate
+/boxsizep 5 sizep mul def
+newpath
+0 0 moveto
+boxsizep 0 rlineto
+0 boxsizep neg rlineto
+boxsizep neg 0 rlineto
+0 boxsizep rlineto
+closepath
+fill
+
+boxsizep 0 translate
+
+% Group -1
+scale-1 scale-1 scale
+/size group-2 0 get def
+14 sizep mul sizep 2 mul translate
+gsave
+sizep 5 mul neg sizep translate
+0 0 moveto
+(-1) show
+grestore
+
+/rotation 180 def
+rotation rotate
+1 1 6 Group
+
+0 sizep 14 mul translate
+
+2 2 scale
+/size group-2 0 get def
+Pattern
+
+
+rotation neg rotate
+/rotation 0 def
+gsave
+sizep -1 mul fontsize 2 div add neg
+10 exch translate
+0 0 moveto
+(-2) show
+0 fontsize sizep add neg translate
+0 0 moveto
+(1) show
+grestore
+
+0 sizep 5 mul neg translate
+sizep 12 mul neg 0 translate
+
+/usaf (USAF-1951) def
+usaf stringwidth
+pop 2 div neg 
+fontsize neg
+translate
+0 0 moveto
+usaf show
+
+pgsave restore showpage
+
+%%PageTrailer
+%%Trailer
+
+%%EOF
