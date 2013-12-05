@@ -1,7 +1,11 @@
 %!PS-Adobe-3.0
 %%Pages: 1
+%%Creator: Denis Anisimov
+%%Title: USAF-1951 Test Chart - CGMIPT2013
+%%CreationDate: 11/28/2013
 %%DocumentData: Clean7Bit
 %%LanguageLevel: 2
+%%BoundingBox: 0 0 612 792
 %%EndComments
 
 %%BeginProlog
@@ -90,8 +94,46 @@ setfont
 } for
 } def
 
+% Move somewhere to top center
+612 792
+exch 2 div % Center of the page
+exch translate
+% Write title
+gsave
+/title (USAF-1951 Test Chart) def
+/subtitle (Postscript task - CGMIPT2013) def
+/author (Author - Denis Anisimov) def
+/Helvetica-Bold findfont
+30 scalefont
+setfont
+/Textfromcenter {
+    /text exch def
+    text stringwidth
+    neg exch 
+    2 div neg exch
+    translate
+    0 0 moveto
+    text show
+    text stringwidth
+    exch 2 div exch
+    translate
+} def
+title Textfromcenter
+/Helvetica findfont
+15 scalefont
+setfont
+0 -20 translate
+subtitle Textfromcenter
+0 -20 translate
+author Textfromcenter
+grestore
+
+% Move to starting point for table
+group-2 1 get dpi mul 13 mul neg % Half-width of the table
+260 neg % Move from top
+translate
+
 % Group -2
-200 200 translate
 scale-2 scale-2 scale
 6 -1 2 Group
 
