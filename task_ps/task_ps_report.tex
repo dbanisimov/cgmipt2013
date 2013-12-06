@@ -1,25 +1,125 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 \usepackage[russian]{babel}
 \usepackage{fullpage}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{gnuplot-lua-tikz}
 %\usepackage{amsmath,amssymb}
 \title{CGMIPT 2013 - Postscript Task}
 \author{Денис Анисимов}
-\date{}
+
+\pdfcompresslevel0
+
 \begin{document}
 \maketitle
 \section*{Реализация}
-В качестве тестовой таблицы была выбрана USAF-1951. Таблица представляет собой набор групп из 6ти элементов. Каждый элемент состоит из 3х вертикальных и трёх горизонтальных полос. Относительные размеры элемента показаны на рисунке \ref{fig:elem} .
+В качестве тестовой таблицы была выбрана USAF-1951. Таблица представляет собой набор групп из 6ти элементов. Каждый элемент состоит из 3х вертикальных и трёх горизонтальных полос. Относительные размеры линий элемента показаны на рисунке \ref{fig:elem}. Ширина линии($0.5x$) в микрометрах для каждой группы показана в таблице \ref{tab:width}. 
 
+Тестовая таблица(ps2pdf рендер для postscript кода) приведёна в конце данного документа.
 \begin{figure}[!h]
   \begin{center}
   \includegraphics[scale=0.5]{USAFTestElementSpec.png}  
-  \end{center}
   \caption[Элемент таблицы]{Элемент таблицы\protect\footnotemark}
   \label{fig:elem}
+  \end{center}
 \end{figure}
 \footnotetext{Источник:\url{http://www.efg2.com/Lab/ImageProcessing/TestTargets/}}
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{lllllll}
+& \multicolumn{6}{c}{Группа}\\
+Элемент & -2 & -1 & 0  & 1 & 2 & 3 
+\\
+1 & 2000.00& 1000.00& 500.00 & 250.00 & 125.00 & 62.50
+\\
+2 & 1785.71& 891.27 & 446.43 & 223.21 & 111.36 & 55.68
+\\
+3 & 1587.30& 793.65 & 396.83 & 198.41 & 99.21 & 49.50
+\\
+4 & 1416.43& 707.21 & 354.61 & 176.68 & 88.34 & 44.25
+\\
+5 & 1259.45& 630.52 & 314.47 & 157.73 & 78.74 & 39.37
+\\
+6 & 1123.60& 561.17 & 280.90 & 140.45 & 70.13 & 34.97
+\end{tabular}
+\caption{Ширина одной линии в микрометрах}
+\label{tab:width}
+\end{center}
+\end{table}
+
+\section*{Растеризация}
+Размер файла для различных значений разрешающей способности и различных форматов приведён в таблице \ref{tab:sizes} и на рисунке \ref{fig:sizes}. Для двух форматов также получены изображения со сглаживанием с размер блока 4x4. Для получения растрового изображения использовалась программа \texttt{ghostscript} с соответствующими опциями устройства вывода и сглаживания.
+
+\begin{table}[h]
+\begin{center}
+	\begin{tabular}{llllllll}
+
+	&\multicolumn{7}{c}{DPI} \\
+	Формат & 36 & 72 & 144 & 200 & 300 & 600 & 1200\\
+	pngmono  &  3692 & 5403 & 9385 & 12988 & 21140 & 55821 & 165173 \\
+	pngalhpa  &  9509 & 18227 & 37684 & 55017 & 90939 & 247469 & 776750 \\
+	png256 & 5308 & 8511 & 16504 & 24226 & 42132 & 108737  & 301216 \\
+	png16 & 4059 & 6718 & 12925 & 17733 & 28848 & 72861 & 197073 \\
+	png16m  &  5374 & 9220 & 18831 & 28278 & 49693 & 148652 & 500439 \\
+	pnggray  &  2606 & 5542 & 11768 & 17041 & 28631 & 73814 & 218036 \\
+	pnggray44  &  4589 & 9772 & 20932 & 29558 & 47490 & 110202 & 288574 \\
+	jpeggray  &  8771 & 23309 & 64636 & 109076 & 198011 & 608643 & 2018185 \\
+	jpeggray44  &  7704 & 21651 & 60696 & 102471 & 188547 & 588664 & 1986325
+	\end{tabular}
+	\caption{Размер растровых изображений, байт}
+	\label{tab:sizes}
+\end{center}
+\end{table}
+
+\begin{figure}[!h]
+\begin{center}
+  \begin{tiny}
+  \input{plot}
+  \end{tiny}  
+  \caption{Размера растровых изображений, байт/dpi}
+  \label{fig:sizes}
+\end{center}
+\end{figure}
+
+Наилучшее сжатие получается при применении формата pngmono. При применении формата jpeg зависимость от размера файла близка к  квадратичной. Такая зависимость объясняется квадратичным увеличением числа блоков в алгоритме jpeg(при сохранении их размера).
+
+При применении сглаживания размер растрового изображения в формате jpeg незначительно уменьшается. Меньше резкость линий - меньше высокочастотных компонент в DCT. Для png ситуация обратная - усложняется словарное сжатие сглаженных линий.
+
+\section*{Артефакты растеризации}
+Искажения изборажения вследствие растеризации показаны на рисунке \ref{fig:artef}. Элементы изображений увеличены в 25 раз. Для формата jpeg виден шум из-за подавления высокочастотных составляющих в процессе сжатия(рисунок \ref{fig:jpeggray}). Этот шум менее выражен при использовании сглаживания(рисунок \ref{fig:jpeggray44}).
+
+\begin{figure}[!h]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+  \centering
+  \includegraphics{sample_pnggray.png}
+  \caption{pnggray}\label{fig:pnggray}
+  \end{subfigure}~
+  \begin{subfigure}[b]{0.4\textwidth}
+  \centering
+  \includegraphics{sample_pnggray44.png}
+  \caption{pnggray + alpha44}\label{fig:pnggray44}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\textwidth}
+  \centering
+  \includegraphics{sample_jpeggray.jpg}
+  \caption{jpeggray}\label{fig:jpeggray}
+  \end{subfigure}~
+  \begin{subfigure}[b]{0.4\textwidth}
+  \centering
+  \includegraphics{sample_jpeggray44.jpg}
+  \caption{jpeggray + alpha44}\label{fig:jpeggray44}
+  \end{subfigure}
+  \caption{Артефакты растеризации для различных форматов}
+  \label{fig:artef}
+\end{figure}
+
+\clearpage
+\includepdf{usaf1951.pdf}
 \end{document}
