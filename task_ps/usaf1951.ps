@@ -133,61 +133,90 @@ group-2 1 get dpi mul 13 mul neg % Half-width of the table
 260 neg % Move from top
 translate
 
-% Group -2
-scale-2 scale-2 scale
-6 -1 2 Group
+/g-2 (-2) def
+/g-1 (-1) def
 
+/DrawLayer {
+    % Group -2
+    scale-2 scale-2 scale
+    6 -1 2 Group
+
+    gsave
+    sizep 5 mul sizep translate
+    0 0 moveto
+    g-2 show
+    grestore
+
+    % Box
+    14 sizep mul 0 translate
+    /boxsizep 5 sizep mul def
+    newpath
+    0 0 moveto
+    boxsizep 0 rlineto
+    0 boxsizep neg rlineto
+    boxsizep neg 0 rlineto
+    0 boxsizep rlineto
+    closepath
+    fill
+
+    boxsizep 0 translate
+
+    % Group -1
+    scale-1 scale-1 scale
+    /size group-2 0 get def
+    14 sizep mul sizep 2 mul translate
+    gsave
+    sizep 5 mul neg sizep translate
+    0 0 moveto
+    g-1 show
+    grestore
+
+    /rotation 180 def
+    rotation rotate
+    1 1 6 Group
+
+    0 sizep 14 mul translate
+
+    2 2 scale
+    /size group-2 0 get def
+    Pattern
+
+    rotation neg rotate
+    /rotation 0 def
+
+    gsave
+    sizep -1 mul fontsize 2 div add neg
+    10 exch translate
+    0 0 moveto
+    g-2 show
+    0 fontsize sizep add neg translate
+    0 0 moveto
+    (1) show
+    grestore
+} def
+
+% Draw the first layer
+DrawLayer
+
+% Draw the second layer
 gsave
-sizep 5 mul sizep translate
-0 0 moveto
-(-2) show
+/DrawNextLayer {
+    -12.5 sizep mul 4 sizep mul translate
+    0.25 0.25 scale
+    DrawLayer
+} def
+
+/g-2 (0) def
+/g-1 (1) def
+DrawNextLayer
+
+% Draw the next layer
+gsave
+/g-2 (2) def
+/g-1 (3) def
+DrawNextLayer
+
 grestore
-
-% Box
-14 sizep mul 0 translate
-/boxsizep 5 sizep mul def
-newpath
-0 0 moveto
-boxsizep 0 rlineto
-0 boxsizep neg rlineto
-boxsizep neg 0 rlineto
-0 boxsizep rlineto
-closepath
-fill
-
-boxsizep 0 translate
-
-% Group -1
-scale-1 scale-1 scale
-/size group-2 0 get def
-14 sizep mul sizep 2 mul translate
-gsave
-sizep 5 mul neg sizep translate
-0 0 moveto
-(-1) show
-grestore
-
-/rotation 180 def
-rotation rotate
-1 1 6 Group
-
-0 sizep 14 mul translate
-
-2 2 scale
-/size group-2 0 get def
-Pattern
-
-
-rotation neg rotate
-/rotation 0 def
-gsave
-sizep -1 mul fontsize 2 div add neg
-10 exch translate
-0 0 moveto
-(-2) show
-0 fontsize sizep add neg translate
-0 0 moveto
-(1) show
 grestore
 
 0 sizep 5 mul neg translate
